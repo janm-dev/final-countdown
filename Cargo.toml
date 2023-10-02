@@ -1,0 +1,78 @@
+[package]
+name = "final-countdown"
+version = "0.1.0"
+edition = "2021"
+authors = ["janm-dev"]
+categories = [
+	"date-and-time",
+	"web-programming::http-server",
+]
+description = "A simple timer webapp with emphasis on internationalization"
+homepage = "https://countdown.janm.dev/"
+keywords = ["countdown", "timer"]
+license = "AGPL-3.0-or-later"
+rust-version = "1.72"
+
+[features]
+default = ["http1", "http2"]
+# Enable HTTP/1.0 and HTTP/1.1 support
+http1 = ["axum/http1"]
+# Enable HTTP/2 support
+http2 = ["axum/http2"]
+# Generate time unit data for only a few locales (not recommended)
+few-time-units = []
+
+[dependencies]
+accept-language = "3.1.0"
+aho-corasick = "1.1.1"
+axum = { version = "0.6.20", features = [
+	"json",
+	"macros",
+	"query",
+	"tokio",
+	"tower-log",
+	"tracing",
+], default-features = false }
+chrono = "0.4.31"
+cookie = "0.17.0"
+icu = { version = "1.3.0", features = [
+	"std",
+	"icu_displaynames",
+] }
+litemap = "0.7.1"
+phf = "0.11.2"
+rand = "0.8.5"
+serde = { version = "1.0.188", features = ["serde_derive"] }
+serde_json = "1.0.107"
+tokio = { version = "1.32.0", features = ["full"] }
+tracing = { version = "0.1.37", features = [
+	"release_max_level_debug",
+	"log",
+] }
+tracing-subscriber = "0.3.17"
+uuid = { version = "1.4.1", features = ["rand", "v4"] }
+zerovec = "0.10.0"
+
+[build-dependencies]
+copy_dir = "0.1.3"
+phf = "0.11.2"
+phf_codegen = "0.11.2"
+reqwest = { version = "0.11.20", features = ["blocking"] }
+serde_json = "1.0.107"
+zip-extract = "0.1.2"
+prettyplease = "0.2.15"
+syn = { version = "2.0.37", default-features = false, features = [
+	"full",
+	"parsing",
+] }
+minify-html = "0.11.1"
+
+[profile.release]
+opt-level = "s"
+overflow-checks = false
+debug = "full"
+split-debuginfo = "packed"
+strip = true
+lto = "fat"
+incremental = false
+codegen-units = 1

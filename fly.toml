@@ -1,0 +1,32 @@
+app = "final-countdown"
+primary_region = "waw"
+
+[[services]]
+internal_port = 8080
+protocol = "tcp"
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 1
+processes = ["app"]
+
+[[services.ports]]
+port = 80
+
+[[services.ports]]
+handlers = ["tls"]
+port = 443
+tls_options = { "alpn" = [
+	"h2",
+	"http/1.1",
+], "versions" = [
+	"TLSv1.2",
+	"TLSv1.3",
+] }
+
+[[services.http_checks]]
+interval = "1s"
+grace_period = "2s"
+method = "GET"
+path = "/now"
+protocol = "http"
+timeout = "5s"

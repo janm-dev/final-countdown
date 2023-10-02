@@ -1,0 +1,8 @@
+.vscode/
+.yarn/
+.pnp.cjs
+.pnp.loader.mjs
+target/
+cldr/
+icu-data/
+cldr.zip

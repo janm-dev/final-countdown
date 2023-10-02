@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="{{=LOCALE=}}">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{{=PAGE_TITLE=}}</title>
+		<link
+			rel="preload"
+			href="/font-numbers.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/font-text.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<meta
+			name="description"
+			lang="en"
+			content="Countdown to {{=DATETIME=}} - about {{=DAYS=}} days, {{=HOURS=}} hours, {{=MINUTES=}} minutes, and {{=SECONDS=}} seconds left."
+		/>
+		<link
+			rel="icon"
+			href="/icon.ico"
+			type="image/x-icon"
+			sizes="16x16 32x32 48x48"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="icon"
+			href="/icon.svg"
+			type="image/svg+xml"
+			sizes="any"
+			crossorigin="anonymous"
+		/>
+		<link rel="manifest" href="/site.webmanifest" crossorigin="anonymous" />
+		<meta name="keywords" content="countdown,timer" />
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: light)"
+			content="#fff"
+		/>
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: dark)"
+			content="#000"
+		/>
+		<meta
+			name="color-scheme"
+			content="dark"
+			media="(prefers-color-scheme: dark)"
+		/>
+		<style nonce="{{=NONCE=}}">
+			:root {
+				text-align: center;
+				background-color: #000;
+				color: #fff;
+				font-family: "FC Text", "Noto Sans", system-ui, sans-serif;
+				font-weight: normal;
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100dvw;
+				height: 100dvh;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			#title {
+				font-size: 4dvw;
+				height: 4dvw;
+				margin: 4dvw auto;
+			}
+
+			#countdown {
+				display: grid;
+				width: fit-content;
+				font-size: 9dvw;
+				height: 12dvw;
+				font-family: "FC Numbers", "FC Text", "Noto Sans", system-ui, sans-serif;
+				font-weight: 900;
+				margin: calc(50dvh - 14dvw) auto calc(50dvh - 6dvw);
+				grid-template-columns: auto 1ch 2ch 1ch 2ch 1ch 2ch;
+				grid-template-rows: 3fr 1fr;
+				grid-template-areas: "days separator-days hours separator-hours minutes separator-minutes seconds" "unit-days . unit-hours . unit-minutes . unit-seconds";
+			}
+
+			#countdown[data-no-days="true"] {
+				font-size: 12dvw;
+				height: 16dvw;
+				margin: calc(50dvh - 16dvw) auto calc(50dvh - 8dvw);
+				grid-template-columns: 2ch 1ch 2ch 1ch 2ch;
+				grid-template-rows: 3fr 1fr;
+				grid-template-areas: "hours separator-hours minutes separator-minutes seconds" "unit-hours . unit-minutes . unit-seconds";
+			}
+
+			#countdown[data-no-days="true"][data-wide-hours="true"] {
+				grid-template-columns: 3ch 1ch 2ch 1ch 2ch;
+			}
+
+			#countdown[data-many-days="true"] {
+				font-size: 6.5dvw;
+				height: 8.65dvw;
+				margin: calc(50dvh - 12.325dvw) auto calc(50dvh - 4.325dvw);
+			}
+
+			#countdown[data-no-days="true"] > #days,
+			#countdown[data-no-days="true"] > #unit-days {
+				display: none;
+			}
+
+			#countdown > .value {
+				font-size: 1em;
+				height: 1em;
+			}
+
+			#countdown > .separator {
+				font-size: 1em;
+				height: 1em;
+			}
+
+			#countdown > .unit {
+				font-size: 0.33em;
+				height: 1em;
+			}
+
+			#countdown-text {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				padding: 0;
+				margin: -1px;
+				overflow: hidden;
+				clip: rect(0, 0, 0, 0);
+				border: 0;
+			}
+
+			#unit-days,
+			#unit-hours,
+			#unit-minutes,
+			#unit-seconds {
+				font-family: "FC Text", "Noto Sans", system-ui, sans-serif;
+				font-weight: normal;
+			}
+
+			#days {
+				grid-area: days;
+			}
+
+			#hours {
+				grid-area: hours;
+			}
+
+			#minutes {
+				grid-area: minutes;
+			}
+
+			#seconds {
+				grid-area: seconds;
+			}
+
+			#unit-days {
+				grid-area: unit-days;
+			}
+
+			#unit-hours {
+				grid-area: unit-hours;
+			}
+
+			#unit-minutes {
+				grid-area: unit-minutes;
+			}
+
+			#unit-seconds {
+				grid-area: unit-seconds;
+			}
+
+			#separator-days {
+				grid-area: separator-days;
+			}
+
+			#separator-hours {
+				grid-area: separator-hours;
+			}
+
+			#separator-minutes {
+				grid-area: separator-minutes;
+			}
+
+			@media (max-width: 1200px) {
+				#countdown,
+				#countdown[data-many-days="true"] {
+					font-size: 12dvw;
+					height: 36dvw;
+					margin: calc(50dvh - 26dvw) auto calc(50dvh - 18dvw);
+					grid-template-columns: 2ch 1ch 2ch 1ch 2ch;
+					grid-template-rows: 3fr 1fr 1fr 3fr 1fr;
+					grid-template-areas: "days days days days days" "unit-days unit-days unit-days unit-days unit-days" ". . . . ." "hours separator-hours minutes separator-minutes seconds" "unit-hours . unit-minutes . unit-seconds";
+				}
+
+				#countdown[data-no-days="true"] {
+					grid-template-columns: 2ch 1ch 2ch 1ch 2ch;
+					grid-template-rows: 3fr 1fr;
+					grid-template-areas: "hours separator-hours minutes separator-minutes seconds" "unit-days . unit-hours . unit-minutes . unit-seconds";
+				}
+
+				#separator-days {
+					display: none;
+				}
+			}
+
+			@media (prefers-color-scheme: light) {
+				:root {
+					background-color: #fff;
+					color: #000;
+				}
+			}
+
+			@font-face {
+				font-family: "FC Text";
+				src: url("/font-text.woff2") format("woff2");
+				font-weight: normal;
+				font-style: normal;
+				font-display: optional;
+			}
+
+			@font-face {
+				font-family: "FC Numbers";
+				src: url("/font-numbers.woff2") format("woff2");
+				font-weight: 900;
+				font-style: normal;
+				font-display: swap;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 id="title">{{=TITLE=}}</h1>
+		<output
+			id="countdown-text"
+			aria-hidden="false"
+			aria-atomic="true"
+			aria-live="polite"
+			role="text"
+			>{{=SR_TEXT=}}</output
+		>
+		<time
+			id="countdown"
+			datetime="{{=DATETIME=}}"
+			aria-hidden="true"
+			role="presentation"
+		>
+			<output id="days" class="value">{{=DAYS=}}</output>
+			<label id="unit-days" for="days" class="unit">{{=UNIT_DAYS=}}</label>
+			<span id="separator-days" class="separator"> </span>
+			<output id="hours" class="value">{{=HOURS=}}</output>
+			<label id="unit-hours" for="hours" class="unit">{{=UNIT_HOURS=}}</label>
+			<span id="separator-hours" class="separator">:</span>
+			<output id="minutes" class="value">{{=MINUTES=}}</output>
+			<label id="unit-minutes" for="minutes" class="unit"
+				>{{=UNIT_MINUTES=}}</label
+			>
+			<span id="separator-minutes" class="separator">:</span>
+			<output id="seconds" class="value">{{=SECONDS=}}</output>
+			<label id="unit-seconds" for="seconds" class="unit"
+				>{{=UNIT_SECONDS=}}</label
+			>
+		</time>
+
+		<script nonce="{{=NONCE=}}">
+			let last_sync = -Infinity;
+			let syncing = false;
+			let sync = [performance.now(), Date.now()];
+			const target_date = new Date(`{{=DATETIME=}}`);
+			let target = target_date - sync[1] + sync[0];
+
+			const sync_time = async () => {
+				const last_sync_diff = sync[0] - sync[1];
+				const device_diff = performance.now() - Date.now();
+
+				const start = performance.now();
+				const time = await fetch("/now", { cache: "no-cache" })
+					.then((r) => r.text())
+					.then((t) => parseFloat(t.split("\n")[1]))
+					.catch(console.error);
+				const end = performance.now();
+
+				if (!time || isNaN(time)) {
+					setTimeout(() => {
+						syncing = false;
+					}, 60 * 1000);
+
+					return;
+				}
+
+				last_sync = start;
+				sync = [(start + end) / 2, time * 1000];
+				target = target_date - sync[1] + sync[0];
+
+				const sync_diff = sync[0] - sync[1];
+				const diff_dev = device_diff - sync_diff;
+				const diff_last = last_sync_diff - sync_diff;
+
+				console.info(
+					`Time sync completed\nDifference to device time: ${diff_dev} ms\nDifference to last sync: ${diff_last} ms`
+				);
+
+				syncing = false;
+			};
+
+			if (
+				!Intl.PluralRules.supportedLocalesOf([`{{=LOCALE=}}`], {
+					localeMatcher: "lookup",
+				}).includes(`{{=LOCALE=}}`)
+			) {
+				console.warn(
+					`Unsupported locale {{=LOCALE=}}, pluralization may be wrong`
+				);
+				console.debug(
+					"TODO: dynamically change locale to a supported one when this happens"
+				);
+			}
+
+			const countdown_el = document.getElementById("countdown");
+			const cd_text_el = document.getElementById("countdown-text");
+
+			const days_el = document.getElementById("days");
+			const hours_el = document.getElementById("hours");
+			const minutes_el = document.getElementById("minutes");
+			const seconds_el = document.getElementById("seconds");
+
+			const days_unit_el = document.getElementById("unit-days");
+			const hours_unit_el = document.getElementById("unit-hours");
+			const minutes_unit_el = document.getElementById("unit-minutes");
+			const seconds_unit_el = document.getElementById("unit-seconds");
+
+			const units = JSON.parse(`{{=UNITS=}}`);
+			const plurals = new Intl.PluralRules(`{{=LOCALE=}}`, {
+				localeMatcher: "best fit",
+				type: "cardinal",
+			});
+
+			let last_update = null;
+			const update_timer = async () => {
+				if (!syncing && performance.now() - last_sync > 10 * 60 * 1000) {
+					syncing = true;
+					requestIdleCallback(sync_time, { timeout: 500 });
+				}
+
+				const time_left_frac = (target - performance.now()) / 1000;
+				const time_left = Math.trunc(time_left_frac);
+				if (time_left === last_update) {
+					// Doesn't need to update
+					if (time_left_frac - time_left > 0.1) {
+						setTimeout(
+							() => requestAnimationFrame(update_timer),
+							(time_left_frac - time_left) * 1000 - 50
+						);
+					} else {
+						requestAnimationFrame(update_timer);
+					}
+
+					return;
+				}
+
+				const s_days_left = Math.trunc(time_left / (60 * 60 * 24));
+				const s_hours_left = Math.trunc(
+					(time_left % (60 * 60 * 24)) / (60 * 60)
+				);
+				const s_minutes_left = Math.trunc((time_left % (60 * 60)) / 60);
+				const s_seconds_left = time_left % 60;
+
+				const days_left = Math.abs(s_days_left);
+				const hours_left = Math.abs(s_hours_left);
+				const minutes_left = Math.abs(s_minutes_left);
+				const seconds_left = Math.abs(s_seconds_left);
+
+				// TODO: actually format time
+				const days = (time_left < 0 ? "-" : "") + days_left.toString(10);
+				const hours =
+					days_left === 0 && time_left < 0
+						? `-${hours_left.toString(10)}`
+						: hours_left.toString(10).padStart(2, "0");
+				const minutes = minutes_left.toString(10).padStart(2, "0");
+				const seconds = seconds_left.toString(10).padStart(2, "0");
+
+				const days_unit = units.days[plurals.select(days_left)];
+				const hours_unit = units.hours[plurals.select(hours_left)];
+				const minutes_unit = units.minutes[plurals.select(minutes_left)];
+				const seconds_unit = units.seconds[plurals.select(seconds_left)];
+
+				if (days_left === 0) {
+					countdown_el.dataset.noDays = true;
+					countdown_el.dataset.manyDays = false;
+				} else if ([...days].length > 2) {
+					countdown_el.dataset.noDays = false;
+					countdown_el.dataset.manyDays = true;
+				} else {
+					countdown_el.dataset.noDays = false;
+					countdown_el.dataset.manyDays = false;
+				}
+
+				if ([...hours].length > 2) {
+					countdown_el.dataset.wideHours = true;
+				} else {
+					countdown_el.dataset.wideHours = false;
+				}
+
+				days_el.textContent = days;
+				hours_el.textContent = hours;
+				minutes_el.textContent = minutes;
+				seconds_el.textContent = seconds;
+
+				days_unit_el.textContent = days_unit;
+				hours_unit_el.textContent = hours_unit;
+				minutes_unit_el.textContent = minutes_unit;
+				seconds_unit_el.textContent = seconds_unit;
+
+				if (seconds_left % 10 == 0) {
+					// Screen readers are hard
+					cd_text_el.textContent =
+						(days_left === 0
+							? `${time_left < 0 ? "-" : ""}`
+							: `${time_left < 0 ? "-" : ""}${days_left} ${days_unit} `) +
+						`${hours_left} ${hours_unit} ${minutes_left} ${minutes_unit} ${seconds_left} ${seconds_unit}`;
+				}
+
+				last_update = time_left;
+				requestAnimationFrame(update_timer);
+			};
+
+			update_timer();
+		</script>
+	</body>
+</html>

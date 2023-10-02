@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="{{=LOCALE=}}">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{{=PAGE_TITLE=}}</title>
+		<link
+			rel="preload"
+			href="/font-text.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<meta
+			name="description"
+			lang="en"
+			content="Create a new countdown timer with Final Countdown."
+		/>
+		<link
+			rel="icon"
+			href="/icon.ico"
+			type="image/x-icon"
+			sizes="16x16 32x32 48x48"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="icon"
+			href="/icon.svg"
+			type="image/svg+xml"
+			sizes="any"
+			crossorigin="anonymous"
+		/>
+		<link rel="manifest" href="/site.webmanifest" crossorigin="anonymous" />
+		<meta name="keywords" content="countdown,timer" />
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: light)"
+			content="#fff"
+		/>
+		<meta
+			name="theme-color"
+			media="(prefers-color-scheme: dark)"
+			content="#000"
+		/>
+		<meta
+			name="color-scheme"
+			content="dark"
+			media="(prefers-color-scheme: dark)"
+		/>
+		<style nonce="{{=NONCE=}}">
+			:root {
+				--fg-color: #fff;
+				--bg-color: #000;
+				--success-color: #3e3;
+				--fail-color: #e33;
+
+				text-align: center;
+				background-color: var(--bg-color);
+				color: var(--fg-color);
+				font-family: "FC Text", "Noto Sans", system-ui, sans-serif;
+				font-weight: normal;
+				font-size: min(2dvw, 2dvh);
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100dvw;
+				height: 100dvh;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			svg > path {
+				fill: var(--fg-color);
+			}
+
+			#form {
+				margin: min(25dvw, 25dvh) 5dvw;
+				display: grid;
+				grid-template-rows:
+					min(10dvw, 10dvh) min(10dvw, 10dvh) min(10dvw, 10dvh)
+					min(10dvw, 10dvh);
+				grid-template-columns: 1fr;
+				grid-template-areas: "target" "title" "actions" "link";
+			}
+
+			#target {
+				grid-area: target;
+
+				min-width: 50dvw;
+				margin: min(2dvw, 2dvh) 0;
+				padding: min(2dvw, 2dvh);
+				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
+				border-radius: min(0.5dvw, 0.5dvh);
+				background: none;
+				font-size: 1rem;
+				color: var(--fg-color);
+			}
+
+			#title {
+				grid-area: title;
+
+				min-width: 50dvw;
+				margin: min(2dvw, 2dvh) 0;
+				padding: min(2dvw, 2dvh);
+				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
+				border-radius: min(0.5dvw, 0.5dvh);
+				background: none;
+				font-size: 1rem;
+				color: var(--fg-color);
+			}
+
+			#actions {
+				grid-area: actions;
+
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+			}
+
+			#link {
+				grid-area: link;
+
+				height: min(3dvw, 3dvh);
+				width: fit-content;
+				min-width: 50dvw;
+				margin: auto;
+				padding: min(2dvw, 2dvh);
+				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
+				border-radius: min(0.5dvw, 0.5dvh);
+				overflow-x: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.label {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				padding: 0;
+				margin: -1px;
+				overflow: hidden;
+				clip: rect(0, 0, 0, 0);
+				border: 0;
+			}
+
+			.button {
+				width: min(6dvw, 6dvh);
+				height: min(6dvw, 6dvh);
+				border-radius: min(3dvw, 3dvh);
+				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
+				background: none;
+				margin: min(2dvw, 2dvh);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.button > svg {
+				width: min(4dvw, 4dvh);
+				height: min(4dvw, 4dvh);
+			}
+
+			@media (prefers-color-scheme: light) {
+				:root {
+					--fg-color: #000;
+					--bg-color: #fff;
+				}
+			}
+
+			@font-face {
+				font-family: "FC Text";
+				src: url("/font-text.woff2") format("woff2");
+				font-weight: normal;
+				font-style: normal;
+				font-display: optional;
+			}
+
+			@font-face {
+				font-family: "FC Numbers";
+				src: url("/font-numbers.woff2") format("woff2");
+				font-weight: 900;
+				font-style: normal;
+				font-display: swap;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>{{=PAGE_TITLE=}}</h1>
+
+		<form action="javascript:void" id="form">
+			<label>
+				<p class="label">{{=TARGET_TEXT=}}</p>
+				<input
+					type="datetime-local"
+					step="1"
+					required
+					name="target"
+					id="target"
+					placeholder="{{=TARGET_TEXT=}}"
+					title="{{=TARGET_TEXT=}}"
+			/></label>
+
+			<label>
+				<p class="label">{{=TITLE_TEXT=}}</p>
+				<input
+					type="text"
+					name="title"
+					id="title"
+					placeholder="{{=TITLE_TEXT=}}"
+					title="{{=TITLE_TEXT=}}"
+			/></label>
+
+			<div id="actions">
+				<button class="button" id="copy" title="{{=COPY_LINK=}}">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 -960 960 960"
+					>
+						<path
+							d="M360-240q-33 0-56-23t-24-57v-480q0-33 24-56t56-24h360q33 0 57 24t23 56v480q0 33-23 57t-57 23H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56-23t-24-57v-560h80v560h440v80H200Zm160-240v-480 480Z"
+						/>
+					</svg>
+				</button>
+				<button class="button" id="start" title="{{=START_TIMER=}}">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 -960 960 960"
+					>
+						<path
+							d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31t-127-86q-54-54-85-127T80-480q0-83 32-156t85-127q54-54 127-85t156-32q83 0 156 32t127 85q54 54 86 127t31 156q0 83-31 156t-86 127q-54 54-127 86T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+						/>
+					</svg>
+				</button>
+				<button class="button" id="share" title="{{=SHARE=}}">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 -960 960 960"
+					>
+						<path
+							d="M720-80q-50 0-85-35t-35-85l1-14 3-14-282-164q-17 15-38 24t-44 8q-50 0-85-35t-35-85q0-50 35-85t85-35q23 0 44 9t38 23l282-164-3-13-1-15q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-23 0-44-8t-38-24L356-508l3 14 1 14-1 15-3 13 282 164q17-15 38-23t44-9q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-640q17 0 29-11t11-29q0-17-11-28t-29-12q-17 0-28 12t-12 28q0 17 12 29t28 11ZM240-440q17 0 29-11t11-29q0-17-11-28t-29-12q-17 0-28 12t-12 28q0 17 12 29t28 11Zm480 280q17 0 29-11t11-29q0-17-11-28t-29-12q-17 0-28 12t-12 28q0 17 12 29t28 11Zm0-600ZM240-480Zm480 280Z"
+						/>
+					</svg>
+				</button>
+			</div>
+
+			<output id="link" for="target title" aria-live="off"
+				><noscript>{{=ENABLE_JS=}}</noscript></output
+			>
+		</form>
+
+		<script nonce="{{=NONCE=}}">
+			const form_el = document.getElementById("form");
+			const target_el = document.getElementById("target");
+			const title_el = document.getElementById("title");
+			const link_el = document.getElementById("link");
+			const copy_el = document.getElementById("copy");
+			const start_el = document.getElementById("start");
+			const share_el = document.getElementById("share");
+
+			const copy = () => {
+				navigator.clipboard
+					.writeText(link_el.textContent)
+					.then(() => {
+						[...copy_el.querySelectorAll("path")].forEach((e) => {
+							e.style.transition = "0.5s ease-in-out fill";
+							e.style.fill = "var(--success-color)";
+						});
+
+						setTimeout(() => {
+							[...copy_el.querySelectorAll("path")].forEach((e) => {
+								e.style.fill = null;
+							});
+						}, 2000);
+
+						setTimeout(() => {
+							[...copy_el.querySelectorAll("path")].forEach((e) => {
+								e.style.transition = "null";
+							});
+						}, 2500);
+					})
+					.catch((e) => {
+						console.error(e);
+
+						[...share_el.querySelectorAll("path")].forEach((e) => {
+							e.style.transition = "0.5s ease-in-out fill";
+							e.style.fill = "var(--fail-color)";
+						});
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.fill = null;
+							});
+						}, 2000);
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.transition = "null";
+							});
+						}, 2500);
+					});
+			};
+
+			const start = () => {
+				window.location.href = link_el.textContent;
+			};
+
+			const share = () => {
+				Promise.resolve()
+					.then(() => {
+						navigator.share({
+							title: title_el.value || "Final Countdown",
+							url: link_el.textContent,
+						});
+					})
+					.then(() => {
+						[...share_el.querySelectorAll("path")].forEach((e) => {
+							e.style.transition = "0.5s ease-in-out fill";
+							e.style.fill = "var(--success-color)";
+						});
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.fill = null;
+							});
+						}, 2000);
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.transition = "null";
+							});
+						}, 2500);
+					})
+					.catch((e) => {
+						console.error(e);
+
+						[...share_el.querySelectorAll("path")].forEach((e) => {
+							e.style.transition = "0.5s ease-in-out fill";
+							e.style.fill = "var(--fail-color)";
+						});
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.fill = null;
+							});
+						}, 2000);
+
+						setTimeout(() => {
+							[...share_el.querySelectorAll("path")].forEach((e) => {
+								e.style.transition = "null";
+							});
+						}, 2500);
+					});
+			};
+
+			const get_datetime = (input) => {
+				const target = new Date(input);
+				const tz_offset = -target.getTimezoneOffset();
+
+				const dt = `${target.getFullYear().toString(10).padStart(2, "0")}-${(
+					target.getMonth() + 1
+				)
+					.toString(10)
+					.padStart(2, "0")}-${(target.getDay() + 1)
+					.toString(10)
+					.padStart(2, "0")}T${target
+					.getHours()
+					.toString(10)
+					.padStart(2, "0")}:${target
+					.getMinutes()
+					.toString(10)
+					.padStart(2, "0")}:${target
+					.getSeconds()
+					.toString(10)
+					.padStart(2, "0")}`;
+
+				const tz = `${tz_offset >= 0 ? "+" : "-"}${Math.abs(
+					Math.trunc(tz_offset / 60)
+				)
+					.toString(10)
+					.padStart(2, "0")}:${Math.abs(tz_offset % 60)
+					.toString(10)
+					.padStart(2, "0")}`;
+
+				return [dt, tz];
+			};
+
+			const update_link = () => {
+				const [dt, tz] = get_datetime(target_el.value || Date.now() + 3600000);
+				link_el.textContent = `${
+					window.location.origin
+				}/${dt}${tz}/${encodeURIComponent(
+					(title_el.value || "").replaceAll(" ", "_")
+				)}`;
+			};
+
+			form_el.onsubmit = start;
+			start_el.onclick = start;
+			copy_el.onclick = copy;
+			share_el.onclick = share;
+			target_el.oninput = update_link;
+			title_el.oninput = update_link;
+			target_el.value = get_datetime(Date.now() + 3600000)[0];
+			update_link();
+		</script>
+	</body>
+</html>

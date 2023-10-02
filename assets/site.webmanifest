@@ -1,0 +1,46 @@
+{
+	"name": "Final Countdown",
+	"short_name": "Final Countdown",
+	"theme_color": "#000",
+	"background_color": "#000",
+	"display": "fullscreen",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "/icon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		},
+		{
+			"src": "/icon.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "/maskable.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/maskable.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/monochrome.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "monochrome maskable"
+		},
+		{
+			"src": "/monochrome.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "monochrome maskable"
+		}
+	]
+}
