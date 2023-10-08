@@ -365,11 +365,12 @@
 				const target = new Date(input);
 				const tz_offset = -target.getTimezoneOffset();
 
-				const dt = `${target.getFullYear().toString(10).padStart(2, "0")}-${(
+				const dt = `${target.getFullYear().toString(10).padStart(4, "0")}-${(
 					target.getMonth() + 1
 				)
 					.toString(10)
-					.padStart(2, "0")}-${(target.getDay() + 1)
+					.padStart(2, "0")}-${target
+					.getDate()
 					.toString(10)
 					.padStart(2, "0")}T${target
 					.getHours()
@@ -394,7 +395,7 @@
 			};
 
 			const update_link = () => {
-				const [dt, tz] = get_datetime(target_el.value || Date.now() + 3600000);
+				const [dt, tz] = get_datetime(target_el.value);
 				link_el.textContent = `${
 					window.location.origin
 				}/${dt}${tz}/${encodeURIComponent(
