@@ -73,7 +73,7 @@ pub fn countdown_html(title: Title, timestamp: Timestamp, locales: Locales, id: 
 		&id.to_string(),
 		&locale.to_string(),
 		"Final Countdown",
-		&title.0,
+		&html_escape::encode_text(&title.0),
 		&timestamp.to_string(),
 		&format!(
 			"{}{days_left} {days} {hours_left} {hours} {minutes_left} {minutes} {seconds_left} \
