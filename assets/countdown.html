@@ -284,31 +284,36 @@
 				const last_sync_diff = sync[0] - sync[1];
 				const device_diff = performance.now() - Date.now();
 
-				const start = performance.now();
-				const time = await fetch("/now", { cache: "no-cache" })
-					.then((r) => r.text())
-					.then((t) => parseFloat(t.split("\n")[1]))
-					.catch(console.error);
-				const end = performance.now();
+				let syncs = [];
+				while (syncs.length < 5) {
+					const start = performance.now();
+					const time = await fetch("/now", {
+						cache: "no-store",
+					})
+						.then((r) => r.text())
+						.then((t) => parseFloat(t.split("\n")[1]))
+						.catch(console.error);
+					const end = performance.now();
 
-				if (!time || isNaN(time)) {
-					setTimeout(() => {
-						syncing = false;
-					}, 60 * 1000);
+					if (!time || isNaN(time)) {
+						continue;
+					}
 
-					return;
+					syncs.push([(start + end) / 2, time * 1000]);
+					last_sync = start;
 				}
 
-				last_sync = start;
-				sync = [(start + end) / 2, time * 1000];
+				syncs.sort((a, b) => a[0] - a[1] - (b[0] - b[1]));
+
+				sync = syncs[2];
 				target = target_date - sync[1] + sync[0];
 
-				const sync_diff = sync[0] - sync[1];
-				const diff_dev = device_diff - sync_diff;
-				const diff_last = last_sync_diff - sync_diff;
+				const sync_diff = syncs.map((e) => e[0] - e[1]);
+				const diff_dev = sync_diff.map((e) => device_diff - e);
+				const diff_last = sync_diff.map((e) => last_sync_diff - e);
 
 				console.info(
-					`Time sync completed\nDifference to device time: ${diff_dev} ms\nDifference to last sync: ${diff_last} ms`
+					`Time sync completed\nDifference to device time: ${diff_dev[2]} ms (${diff_dev})\nDifference to last sync: ${diff_last[2]} ms (${diff_last})`
 				);
 
 				syncing = false;
