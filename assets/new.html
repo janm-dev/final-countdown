@@ -86,11 +86,14 @@
 				grid-template-areas: "target" "title" "actions" "link";
 			}
 
-			#target {
+			#target-label {
 				grid-area: target;
+				margin: 0 auto;
+			}
 
+			#target {
 				min-width: 50dvw;
-				margin: min(2dvw, 2dvh) 0;
+				margin: min(2dvw, 2dvh) auto;
 				padding: min(2dvw, 2dvh);
 				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
 				border-radius: min(0.5dvw, 0.5dvh);
@@ -99,11 +102,14 @@
 				color: var(--fg-color);
 			}
 
-			#title {
+			#title-label {
 				grid-area: title;
+				margin: 0 auto;
+			}
 
+			#title {
 				min-width: 50dvw;
-				margin: min(2dvw, 2dvh) 0;
+				margin: min(2dvw, 2dvh) auto;
 				padding: min(2dvw, 2dvh);
 				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
 				border-radius: min(0.5dvw, 0.5dvh);
@@ -126,6 +132,7 @@
 				height: min(3dvw, 3dvh);
 				width: fit-content;
 				min-width: 50dvw;
+				max-width: 80dvw;
 				margin: auto;
 				padding: min(2dvw, 2dvh);
 				border: min(0.25dvw, 0.25dvh) solid var(--fg-color);
@@ -175,7 +182,7 @@
 				src: url("/font-text.woff2") format("woff2");
 				font-weight: normal;
 				font-style: normal;
-				font-display: optional;
+				font-display: swap;
 			}
 
 			@font-face {
@@ -191,7 +198,7 @@
 		<h1>{{=PAGE_TITLE=}}</h1>
 
 		<form action="javascript:void" id="form">
-			<label>
+			<label id="target-label">
 				<p class="label">{{=TARGET_TEXT=}}</p>
 				<input
 					type="datetime-local"
@@ -203,7 +210,7 @@
 					title="{{=TARGET_TEXT=}}"
 			/></label>
 
-			<label>
+			<label id="title-label">
 				<p class="label">{{=TITLE_TEXT=}}</p>
 				<input
 					type="text"
@@ -214,7 +221,7 @@
 			/></label>
 
 			<div id="actions">
-				<button class="button" id="copy" title="{{=COPY_LINK=}}">
+				<button type="button" class="button" id="copy" title="{{=COPY_LINK=}}">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -226,7 +233,12 @@
 						/>
 					</svg>
 				</button>
-				<button class="button" id="start" title="{{=START_TIMER=}}">
+				<button
+					type="submit"
+					class="button"
+					id="start"
+					title="{{=START_TIMER=}}"
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
@@ -238,7 +250,7 @@
 						/>
 					</svg>
 				</button>
-				<button class="button" id="share" title="{{=SHARE=}}">
+				<button type="button" class="button" id="share" title="{{=SHARE=}}">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="24"
