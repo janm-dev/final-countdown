@@ -243,11 +243,10 @@ async fn main() {
 					HeaderMap::from_iter([(
 						HeaderName::from_static("set-cookie"),
 						HeaderValue::from_str(
-							&Cookie::build("locale", &locale)
+							&Cookie::build(("locale", &locale))
 								.permanent()
 								.path("/")
 								.same_site(SameSite::Lax)
-								.finish()
 								.to_string(),
 						)
 						.expect("the cookie is valid"),
@@ -264,11 +263,10 @@ async fn main() {
 					HeaderMap::from_iter([(
 						HeaderName::from_static("set-cookie"),
 						HeaderValue::from_str(
-							&Cookie::build("locale", "")
+							&Cookie::build("locale")
 								.expires(OffsetDateTime::UNIX_EPOCH)
 								.path("/")
 								.same_site(SameSite::Lax)
-								.finish()
 								.to_string(),
 						)
 						.expect("the cookie is valid"),
