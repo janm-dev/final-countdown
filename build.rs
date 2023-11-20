@@ -10,7 +10,7 @@ use minify_html::Cfg;
 use phf_codegen::Map;
 
 const CLDR_ZIP_URL: &str =
-	"https://github.com/unicode-org/cldr-json/releases/download/43.1.0/cldr-43.1.0-json-full.zip";
+	"https://github.com/unicode-org/cldr-json/releases/download/44.0.1/cldr-44.0.1-json-full.zip";
 
 fn main() {
 	println!("cargo:rerun-if-changed=cldr");
