@@ -1,12 +1,13 @@
-use std::{collections::HashMap, env, str::FromStr};
+use std::{collections::HashMap, env, net::Ipv6Addr, str::FromStr};
 
 use axum::{
+	body::Body,
 	extract::{Path, Query},
 	http::{HeaderMap, HeaderName, HeaderValue, Request, StatusCode},
 	middleware::{self, Next},
 	response::{Html, Response},
 	routing::get,
-	Extension, Json, Router, Server,
+	Extension, Json, Router,
 };
 use chrono::{Datelike, SecondsFormat, Timelike, Utc};
 use cookie::{time::OffsetDateTime, Cookie, SameSite};
@@ -20,6 +21,7 @@ use icu::{
 	timezone::CustomTimeZone,
 };
 use locales::Locales;
+use tokio::net::TcpListener;
 use tracing::{info, warn};
 
 mod files;
@@ -102,7 +104,7 @@ async fn countdown(
 	))
 }
 
-async fn headers<B>(req: Request<B>, next: Next<B>) -> Response {
+async fn headers(req: Request<Body>, next: Next) -> Response {
 	let id = req.extensions().get::<ReqId>().cloned();
 
 	let mut res = next.run(req).await;
@@ -295,8 +297,12 @@ async fn main() {
 
 	info!("Final Countdown server starting");
 
-	Server::bind(&"[::]:8080".parse().unwrap())
-		.serve(app.into_make_service())
-		.await
-		.unwrap();
+	axum::serve(
+		TcpListener::bind((Ipv6Addr::UNSPECIFIED, 8080))
+			.await
+			.unwrap(),
+		app.into_make_service(),
+	)
+	.await
+	.unwrap();
 }

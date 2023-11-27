@@ -8,7 +8,7 @@ use std::{
 };
 
 use axum::{
-	body::BoxBody,
+	body::Body,
 	http::Request,
 	middleware::Next,
 	response::{IntoResponse, Response},
@@ -26,7 +26,7 @@ impl ReqId {
 		Self(Uuid::new_v4())
 	}
 
-	pub async fn middleware<B>(mut request: Request<B>, next: Next<B>) -> Response {
+	pub async fn middleware(mut request: Request<Body>, next: Next) -> Response {
 		let id = Self::random();
 		debug!(id = %id, "New request");
 
@@ -121,7 +121,7 @@ impl IntoResponse for TimestampError {
 	fn into_response(self) -> Response {
 		Response::builder()
 			.status(404)
-			.body(BoxBody::default())
+			.body(Body::default())
 			.unwrap()
 	}
 }
