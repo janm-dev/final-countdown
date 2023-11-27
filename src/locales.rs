@@ -1,6 +1,7 @@
 use std::cmp::Reverse;
 
 use axum::{
+	body::Body,
 	http::{
 		header::{ACCEPT_LANGUAGE, COOKIE},
 		Request,
@@ -30,7 +31,7 @@ pub struct Locales {
 impl Locales {
 	pub const MAX_PRIORITY: u8 = u8::MAX;
 
-	pub async fn middleware<B>(mut request: Request<B>, next: Next<B>) -> Response {
+	pub async fn middleware(mut request: Request<Body>, next: Next) -> Response {
 		let mut finder = Self::default();
 
 		debug!("setting locale from the `Accept-Language` header");
