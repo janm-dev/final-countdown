@@ -25,7 +25,7 @@ few-time-units = []
 [dependencies]
 accept-language = "3.1.0"
 aho-corasick = "1.1.2"
-axum = { version = "0.7.2", features = [
+axum = { version = "0.7.3", features = [
 	"json",
 	"macros",
 	"query",
