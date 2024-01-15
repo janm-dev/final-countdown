@@ -287,7 +287,7 @@ async fn main() {
 							.to_string(),
 					)
 					.ok_or(StatusCode::NOT_FOUND)
-					.map(Clone::clone)
+					.cloned()
 					.map(Json)
 			}),
 		)
