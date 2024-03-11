@@ -47,8 +47,8 @@ pub struct Timestamp(pub DateTime<FixedOffset>);
 
 impl Timestamp {
 	pub fn from_unix(timestamp: i64) -> Result<Self, TimestampError> {
-		NaiveDateTime::from_timestamp_opt(timestamp, 0)
-			.map(|dt| dt.and_utc().fixed_offset())
+		DateTime::from_timestamp(timestamp, 0)
+			.map(|dt| dt.fixed_offset())
 			.map(Timestamp)
 			.ok_or(TimestampError)
 	}
