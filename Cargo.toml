@@ -34,7 +34,7 @@ axum = { version = "0.7.5", features = [
 	"tracing",
 ], default-features = false }
 chrono = "0.4.35"
-cookie = "0.18.0"
+cookie = "0.18.1"
 html-escape = "0.2.13"
 icu = { version = "1.4.0", features = [
 	"std",
