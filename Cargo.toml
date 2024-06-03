@@ -52,7 +52,7 @@ tracing = { version = "0.1.40", features = [
 ] }
 tracing-subscriber = "0.3.18"
 uuid = { version = "1.8.0", features = ["v4"] }
-zerovec = "0.10.1"
+zerovec = "0.10.2"
 
 [build-dependencies]
 copy_dir = "0.1.3"
