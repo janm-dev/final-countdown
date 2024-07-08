@@ -36,10 +36,7 @@ axum = { version = "0.7.5", features = [
 chrono = "0.4.38"
 cookie = "0.18.1"
 html-escape = "0.2.13"
-icu = { version = "1.4.0", features = [
-	"std",
-	"icu_displaynames",
-] }
+icu = { version = "1.5.0", features = ["std"] }
 litemap = "0.7.3"
 phf = "0.11.2"
 rand = "0.8.5"
