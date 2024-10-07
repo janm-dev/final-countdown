@@ -77,7 +77,7 @@ impl Display for Timestamp {
 	}
 }
 
-impl<'a> TryFrom<SerdeTimestamp<'a>> for Timestamp {
+impl TryFrom<SerdeTimestamp<'_>> for Timestamp {
 	type Error = TimestampError;
 
 	fn try_from(value: SerdeTimestamp) -> Result<Self, Self::Error> {
@@ -146,7 +146,7 @@ impl Display for Title {
 	}
 }
 
-impl<'a> From<SerdeTitle<'a>> for Title {
+impl From<SerdeTitle<'_>> for Title {
 	fn from(value: SerdeTitle) -> Self {
 		Self::new(&value.0)
 	}
