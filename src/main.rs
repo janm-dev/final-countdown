@@ -228,17 +228,17 @@ async fn main() {
 			"/monochrome.svg",
 			serve!("monochrome.svg" as "image/svg+xml"),
 		)
-		.route("/:timestamp", get_cd.clone())
-		.route("/:timestamp/", get_cd)
-		.route("/:timestamp/:title", get_cd_titled.clone())
-		.route("/:timestamp/:title/", get_cd_titled)
+		.route("/{timestamp}", get_cd.clone())
+		.route("/{timestamp}/", get_cd)
+		.route("/{timestamp}/{title}", get_cd_titled.clone())
+		.route("/{timestamp}/{title}/", get_cd_titled)
 		.layer(middleware::from_fn(Locales::middleware))
 		.layer(middleware::from_fn(headers))
 		.layer(middleware::from_fn(ReqId::middleware));
 
 	let app = if cfg!(debug_assertions) {
 		app.route(
-			"/set-locale/:locale",
+			"/set-locale/{locale}",
 			get(|Path(locale): Path<String>| async move {
 				(
 					StatusCode::OK,
@@ -278,7 +278,7 @@ async fn main() {
 			}),
 		)
 		.route(
-			"/locale/:locid",
+			"/locale/{locid}",
 			get(|Path(locid): Path<String>| async move {
 				intl::UNITS
 					.get(
