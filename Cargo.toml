@@ -25,7 +25,7 @@ few-time-units = []
 [dependencies]
 accept-language = "3.1.0"
 aho-corasick = "1.1.3"
-axum = { version = "0.8.1", features = [
+axum = { version = "0.8.4", features = [
 	"json",
 	"macros",
 	"query",
@@ -33,37 +33,37 @@ axum = { version = "0.8.1", features = [
 	"tower-log",
 	"tracing",
 ], default-features = false }
-chrono = "0.4.40"
+chrono = "0.4.41"
 cookie = "0.18.1"
 html-escape = "0.2.13"
 icu = { version = "1.5.0", features = ["std"] }
-litemap = "0.7.5"
+litemap = "0.8.0"
 phf = "0.11.3"
-rand = "0.9.0"
+rand = "0.9.1"
 serde = { version = "1.0.219", features = ["serde_derive"] }
 serde_json = "1.0.140"
-tokio = { version = "1.44.2", features = ["full"] }
+tokio = { version = "1.45.1", features = ["full"] }
 tracing = { version = "0.1.41", features = [
 	"release_max_level_debug",
 	"log",
 ] }
 tracing-subscriber = "0.3.19"
-uuid = { version = "1.16.0", features = ["v4"] }
-zerovec = "0.11.1"
+uuid = { version = "1.17.0", features = ["v4"] }
+zerovec = "0.11.2"
 
 [build-dependencies]
 copy_dir = "0.1.3"
 phf = "0.11.3"
 phf_codegen = "0.11.3"
-reqwest = { version = "0.12.14", features = ["blocking"] }
+reqwest = { version = "0.12.15", features = ["blocking"] }
 serde_json = "1.0.140"
-zip-extract = "0.2.1"
-prettyplease = "0.2.31"
-syn = { version = "2.0.100", default-features = false, features = [
+zip-extract = "0.4.0"
+prettyplease = "0.2.32"
+syn = { version = "2.0.101", default-features = false, features = [
 	"full",
 	"parsing",
 ] }
-minify-html = "0.15.0"
+minify-html = "0.16.4"
 
 [profile.release]
 opt-level = "s"
