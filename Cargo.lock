@@ -631,7 +631,7 @@ dependencies = [
  "copy_dir",
  "html-escape",
  "icu",
- "litemap",
+ "litemap 0.8.1",
  "minify-html",
  "phf",
  "phf_codegen",
@@ -1181,7 +1181,7 @@ dependencies = [
  "icu_plurals",
  "icu_properties",
  "icu_provider",
- "litemap",
+ "litemap 0.7.5",
  "num-bigint",
  "num-rational",
  "num-traits",
@@ -1226,7 +1226,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13acbb8371917fc971be86fc8057c41a64b521c184808a698c02acc242dbf637"
 dependencies = [
  "displaydoc",
- "litemap",
+ "litemap 0.7.5",
  "tinystr",
  "writeable",
  "zerovec 0.10.4",
@@ -1569,6 +1569,12 @@ name = "litemap"
 version = "0.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23fb14cb19457329c82206317a5663005a4d404783dc74f4252769b0d5f42856"
+
+[[package]]
+name = "litemap"
+version = "0.8.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6373607a59f0be73a39b6fe456b8192fcc3585f602af20751600e974dd455e77"
 
 [[package]]
 name = "lock_api"
