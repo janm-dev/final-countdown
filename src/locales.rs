@@ -88,7 +88,7 @@ impl Locales {
 
 		let mut locale = iterator.get(); // Because a `LocaleFallbackIterator` is not an iterator
 		while locale != &locale!("und").into() {
-			self.insert(locale.clone().into_locale(), priority);
+			self.insert(locale.into_locale(), priority);
 			priority /= 2;
 			locale = iterator.step().get();
 		}
