@@ -10,10 +10,7 @@ use axum::{
 	response::Response,
 };
 use cookie::Cookie;
-use icu::{
-	locid::{Locale, locale},
-	locid_transform::fallback::LocaleFallbacker,
-};
+use icu::locale::{Locale, fallback::LocaleFallbacker, locale};
 use tracing::{debug, trace};
 
 #[derive(Debug, Clone, PartialEq, Eq)]

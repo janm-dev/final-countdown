@@ -54,7 +54,7 @@ pub fn countdown_html(title: Title, timestamp: Timestamp, locales: Locales, id: 
 		.filter_map(|(locale, _)| {
 			let ls = locale.to_string();
 			let units = crate::intl::UNITS.get(&ls)?;
-			let plurals = PluralRules::try_new_cardinal(&locale.into()).ok()?;
+			let plurals = PluralRules::try_new_cardinal(locale.into()).ok()?;
 			Some((
 				units.days.get_cow(plurals.category_for(days_left)),
 				units.hours.get_cow(plurals.category_for(hours_left)),
@@ -130,7 +130,7 @@ pub fn new_html(locales: Locales, id: ReqId) -> String {
 			// Get the best locale which has all of the data
 			let ls = locale.to_string();
 			let _ = crate::intl::UNITS.get(&ls)?;
-			let _ = PluralRules::try_new_cardinal(&locale.into()).ok()?;
+			let _ = PluralRules::try_new_cardinal(locale.into()).ok()?;
 			Some(ls)
 		})
 		.next()

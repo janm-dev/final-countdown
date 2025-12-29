@@ -13,12 +13,10 @@ use chrono::{Datelike, SecondsFormat, Timelike, Utc};
 use cookie::{Cookie, SameSite, time::OffsetDateTime};
 use files::StaticResponse;
 use icu::{
-	calendar::DateTime,
-	datetime::{
-		DateTimeFormatterOptions, ZonedDateTimeFormatter, time_zone::TimeZoneFormatterOptions,
-	},
-	locid::Locale,
-	timezone::CustomTimeZone,
+	calendar::Date,
+	datetime::{DateTimeFormatter, DateTimeFormatterPreferences, fieldsets::YMDT},
+	locale::Locale,
+	time::{DateTime, Time},
 };
 use locales::Locales;
 use tokio::net::TcpListener;
@@ -53,10 +51,9 @@ async fn now(Extension(locales): Extension<Locales>) -> String {
 		.iter()
 		.filter_map(|(l, _)| {
 			Some((
-				ZonedDateTimeFormatter::try_new(
-					&l.into(),
-					DateTimeFormatterOptions::default(),
-					TimeZoneFormatterOptions::default(),
+				DateTimeFormatter::try_new(
+					DateTimeFormatterPreferences::from_locale_strict(l).ok()?,
+					YMDT::medium(),
 				)
 				.ok()?,
 				l.clone(),
@@ -64,21 +61,27 @@ async fn now(Extension(locales): Extension<Locales>) -> String {
 		})
 		.next()
 		.expect("at least one locale must have the required data");
-	let local = formatter
-		.format_to_string(
-			&DateTime::try_new_iso_datetime(
-				now.year(),
-				now.month() as u8,
-				now.day() as u8,
-				now.hour() as u8,
-				now.minute() as u8,
-				now.second() as u8,
-			)
-			.expect("the date is correct")
-			.to_any(),
-			&CustomTimeZone::utc(),
+	let local = (|| {
+		Some(
+			formatter
+				.format(&DateTime {
+					date: Date::try_new_iso(
+						now.year(),
+						now.month().try_into().ok()?,
+						now.day().try_into().ok()?,
+					)
+					.ok()?,
+					time: Time::try_new(
+						now.hour().try_into().ok()?,
+						now.minute().try_into().ok()?,
+						now.second().try_into().ok()?,
+						now.nanosecond(),
+					)
+					.ok()?,
+				})
+				.to_string(),
 		)
-		.expect("the calender is correct");
+	})();
 	let locales = locales
 		.list()
 		.iter()
@@ -86,7 +89,11 @@ async fn now(Extension(locales): Extension<Locales>) -> String {
 		.collect::<Vec<_>>()
 		.join(", ");
 
-	format!("{rfc}\n{unix}.{unix_subsec:06}\n{locale} | [{locales}]\n{local}")
+	if let Some(local) = local {
+		format!("{rfc}\n{unix}.{unix_subsec:06}\n{locale} | [{locales}]\n{local}")
+	} else {
+		format!("{rfc}\n{unix}.{unix_subsec:06}\n{locale} | [{locales}]")
+	}
 }
 
 async fn countdown(
