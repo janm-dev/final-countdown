@@ -8,6 +8,7 @@ use std::{
 
 use minify_html::Cfg;
 use phf_codegen::Map;
+use zip::ZipArchive;
 
 const CLDR_ZIP_URL: &str =
 	"https://github.com/unicode-org/cldr-json/releases/download/45.0.0/cldr-45.0.0-json-full.zip";
@@ -170,12 +171,10 @@ fn extract_cldr() {
 	zip_path.push("cldr.zip");
 	let zip_path = zip_path;
 
-	zip_extract::extract(
-		File::open(zip_path).expect("cldr zip is unreadable"),
-		&icu,
-		false,
-	)
-	.expect("cldr zip is un-decompressable");
+	ZipArchive::new(File::open(zip_path).expect("cldr zip is unreadable"))
+		.expect("cldr zip is unopenable")
+		.extract(&icu)
+		.expect("cldr zip is un-extractable");
 
 	eprintln!("CLDR data extracted");
 }

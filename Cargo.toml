@@ -1,7 +1,7 @@
 [package]
 name = "final-countdown"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["janm-dev"]
 categories = [
 	"date-and-time",
@@ -11,7 +11,7 @@ description = "A simple timer webapp with emphasis on internationalization"
 homepage = "https://countdown.janm.dev/"
 keywords = ["countdown", "timer"]
 license = "AGPL-3.0-or-later"
-rust-version = "1.72"
+rust-version = "1.92"
 
 [features]
 default = ["http1", "http2"]
@@ -53,17 +53,17 @@ zerovec = "0.11.5"
 
 [build-dependencies]
 copy_dir = "0.1.3"
+minify-html = "0.15.0"
 phf = "0.13.1"
 phf_codegen = "0.11.3"
+prettyplease = "0.2.37"
 reqwest = { version = "0.12.28", features = ["blocking"] }
 serde_json = "1.0.148"
-zip-extract = "0.4.1"
-prettyplease = "0.2.37"
 syn = { version = "2.0.111", default-features = false, features = [
 	"full",
 	"parsing",
 ] }
-minify-html = "0.15.0"
+zip = "1.1.4"
 
 [profile.release]
 opt-level = "s"
