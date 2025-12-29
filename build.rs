@@ -64,11 +64,11 @@ fn minify(name: &str, path: PathBuf) {
 	let html = fs::read_to_string(path).unwrap();
 
 	let config = Cfg {
-		do_not_minify_doctype: true,
-		ensure_spec_compliant_unquoted_attribute_values: true,
+		minify_doctype: false,
+		allow_noncompliant_unquoted_attribute_values: false,
 		keep_closing_tags: false,
 		keep_html_and_head_opening_tags: false,
-		keep_spaces_between_attributes: true,
+		allow_removing_spaces_between_attributes: false,
 		keep_comments: false,
 		minify_css: true,
 		minify_js: true,
@@ -431,7 +431,7 @@ fn time_units() {
 			seconds[5],
 		);
 
-		map.entry(locale, &units);
+		map.entry(locale, units);
 	}
 
 	let map = map.build();
