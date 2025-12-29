@@ -1,21 +1,21 @@
 use std::{collections::HashMap, env, net::Ipv6Addr, str::FromStr};
 
 use axum::{
+	Extension, Json, Router,
 	body::Body,
 	extract::{Path, Query},
 	http::{HeaderMap, HeaderName, HeaderValue, Request, StatusCode},
 	middleware::{self, Next},
 	response::{Html, Response},
 	routing::get,
-	Extension, Json, Router,
 };
 use chrono::{Datelike, SecondsFormat, Timelike, Utc};
-use cookie::{time::OffsetDateTime, Cookie, SameSite};
+use cookie::{Cookie, SameSite, time::OffsetDateTime};
 use files::StaticResponse;
 use icu::{
 	calendar::DateTime,
 	datetime::{
-		time_zone::TimeZoneFormatterOptions, DateTimeFormatterOptions, ZonedDateTimeFormatter,
+		DateTimeFormatterOptions, ZonedDateTimeFormatter, time_zone::TimeZoneFormatterOptions,
 	},
 	locid::Locale,
 	timezone::CustomTimeZone,

@@ -3,15 +3,15 @@ use std::cmp::Reverse;
 use axum::{
 	body::Body,
 	http::{
-		header::{ACCEPT_LANGUAGE, COOKIE},
 		Request,
+		header::{ACCEPT_LANGUAGE, COOKIE},
 	},
 	middleware::Next,
 	response::Response,
 };
 use cookie::Cookie;
 use icu::{
-	locid::{locale, Locale},
+	locid::{Locale, locale},
 	locid_transform::fallback::LocaleFallbacker,
 };
 use tracing::{debug, trace};

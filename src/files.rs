@@ -14,9 +14,9 @@ pub struct StaticResponse;
 macro_rules! serve {
 	($path:literal as $content_type:literal) => {{
 		use ::axum::{
+			Extension,
 			http::{HeaderMap, HeaderName, HeaderValue, StatusCode},
 			routing::get,
-			Extension,
 		};
 		use ::core::{concat, include_bytes};
 		use $crate::files::StaticResponse;

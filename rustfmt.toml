@@ -2,7 +2,7 @@ hard_tabs = true
 newline_style = "Unix"
 use_field_init_shorthand = true
 use_try_shorthand = true
-edition = "2021"
+edition = "2024"
 
 # Below are unstable features, requiring nightly rustfmt
 unstable_features = true

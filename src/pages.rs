@@ -7,8 +7,8 @@ use chrono::Utc;
 use icu::plurals::PluralRules;
 
 use crate::{
-	types::{ReqId, Timestamp, Title},
 	Locales,
+	types::{ReqId, Timestamp, Title},
 };
 
 /// Include a generated minified html file as a `&'static str`. The file must
