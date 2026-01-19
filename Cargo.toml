@@ -33,7 +33,7 @@ axum = { version = "0.8.8", features = [
 	"tower-log",
 	"tracing",
 ], default-features = false }
-chrono = "0.4.42"
+chrono = "0.4.43"
 cookie = "0.18.1"
 html-escape = "0.2.13"
 icu = "2.1.1"
@@ -63,7 +63,7 @@ syn = { version = "2.0.114", default-features = false, features = [
 	"full",
 	"parsing",
 ] }
-zip = "7.0.0"
+zip = "7.1.0"
 
 [profile.release]
 opt-level = "s"
