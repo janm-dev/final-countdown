@@ -63,7 +63,7 @@ syn = { version = "2.0.117", default-features = false, features = [
 	"full",
 	"parsing",
 ] }
-zip = "8.2.0"
+zip = "8.4.0"
 
 [profile.release]
 opt-level = "s"
