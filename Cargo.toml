@@ -48,7 +48,7 @@ tracing = { version = "0.1.44", features = [
 	"log",
 ] }
 tracing-subscriber = "0.3.23"
-uuid = { version = "1.22.0", features = ["v4"] }
+uuid = { version = "1.23.0", features = ["v4"] }
 zerovec = "0.11.5"
 
 [build-dependencies]
