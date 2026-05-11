@@ -20,7 +20,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - uses: EmbarkStudios/cargo-deny-action@v2
         if: success() || failure()
-      - uses: actions/dependency-review-action@v4
+      - uses: actions/dependency-review-action@v5
         if: (success() || failure()) && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
         with:
           fail-on-severity: low
