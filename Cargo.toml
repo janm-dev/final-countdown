@@ -41,7 +41,7 @@ litemap = "0.8.2"
 phf = "0.13.1"
 rand = "0.10.1"
 serde = { version = "1.0.219", features = ["serde_derive"] }
-serde_json = "1.0.149"
+serde_json = "1.0.150"
 tokio = { version = "1.52.3", features = ["full"] }
 tracing = { version = "0.1.44", features = [
 	"release_max_level_debug",
@@ -57,8 +57,8 @@ minify-html = "0.18.1"
 phf = "0.13.1"
 phf_codegen = "0.13.1"
 prettyplease = "0.2.37"
-reqwest = { version = "0.13.3", features = ["blocking"] }
-serde_json = "1.0.149"
+reqwest = { version = "0.13.4", features = ["blocking"] }
+serde_json = "1.0.150"
 syn = { version = "2.0.117", default-features = false, features = [
 	"full",
 	"parsing",
