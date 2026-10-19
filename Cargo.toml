@@ -35,7 +35,7 @@ axum = { version = "0.8.9", features = [
 ], default-features = false }
 chrono = "0.4.44"
 cookie = "0.18.1"
-html-escape = "0.2.13"
+html-escape = "0.3.0"
 icu = "2.2.0"
 litemap = "0.8.2"
 phf = "0.14.0"
